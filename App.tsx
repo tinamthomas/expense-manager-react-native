@@ -18,7 +18,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExpenseSummary from './ExpenseSummary';
 import NewExpense from './NewExpense';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import initializeDatabase from './android/app/src/db/init';
+import initializeDatabase from './src/db/init';
 
 const Tab = createBottomTabNavigator();
 

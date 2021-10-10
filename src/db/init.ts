@@ -1,5 +1,6 @@
 import { openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage';
 import execQuery from './execQuery';
+import openDB from './open';
 
 const createTables = (database: SQLiteDatabase) => {
   database.transaction((tx) => {
@@ -14,12 +15,6 @@ const createTables = (database: SQLiteDatabase) => {
   })
 }
 
-const openDB = (): Promise<SQLiteDatabase> => {
-  return openDatabase({
-    name: "expense.db",
-    location: "default"
-  })
-}
 const initializeDatabase = async () => {
   const db = await openDB();
   await db.transaction(async (tx: any) => {
