@@ -10,83 +10,50 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExpenseSummary from './ExpenseSummary';
 import NewExpense from './NewExpense';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import initializeDatabase from './android/app/src/db/init';
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
 const Tab = createBottomTabNavigator();
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
-      <Tab.Screen 
-        name="Home" 
-        component={ExpenseSummary}         
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}/>
-      <Tab.Screen 
-        name="NewExpense" 
-        component={NewExpense}
-        options={{
-          tabBarLabel: 'New Expense',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="plus" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-    </NavigationContainer>
-  );
+class App extends React.Component {
+  constructor(props: any){
+    super(props);
+    initializeDatabase();
+  }
+  render() {
+    return (
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Home"
+            component={ExpenseSummary}
+            options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" color={color} size={size} />
+              ),
+            }} />
+          <Tab.Screen
+            name="NewExpense"
+            component={NewExpense}
+            options={{
+              tabBarLabel: 'New Expense',
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="plus" color={color} size={size} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
