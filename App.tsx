@@ -30,6 +30,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExpenseSummary from './ExpenseSummary';
 import NewExpense from './NewExpense';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Section: React.FC<{
   title: string;
@@ -64,8 +65,25 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-      <Tab.Screen name="Settings" component={NewExpense} />
-      <Tab.Screen name="Home" component={ExpenseSummary} />
+      <Tab.Screen 
+        name="Home" 
+        component={ExpenseSummary}         
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}/>
+      <Tab.Screen 
+        name="NewExpense" 
+        component={NewExpense}
+        options={{
+          tabBarLabel: 'New Expense',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
     </NavigationContainer>
   );
