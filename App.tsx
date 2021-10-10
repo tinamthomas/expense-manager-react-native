@@ -32,7 +32,7 @@ class App extends React.Component {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
-            name="Home"
+            name="Welcome to your Expense Manager"
             component={ExpenseSummary}
             options={{
               tabBarLabel: 'Home',
@@ -41,7 +41,7 @@ class App extends React.Component {
               ),
             }} />
           <Tab.Screen
-            name="NewExpense"
+            name="Add new expense"
             component={NewExpense}
             options={{
               tabBarLabel: 'New Expense',
@@ -56,23 +56,5 @@ class App extends React.Component {
   }
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
