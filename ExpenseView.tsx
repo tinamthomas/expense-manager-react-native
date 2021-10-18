@@ -7,34 +7,11 @@ import {
   Text,
   FlatList
 } from 'react-native';
+import execQuery from './src/db/execQuery';
+import openDB from './src/db/open';
 import { Expense } from './src/models/expense';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    description: 'Oreos',
-    category: 'Groceries',
-    date: new Date("10-10-2020"),
-    amount: 3,
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    description: 'Cereal',
-    category: 'Groceries',
-    date: new Date("10-10-2020"),
-    amount: 5,
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    description: 'Fuel',
-    category: 'Car',
-    date: new Date("10-10-2020"),
-    amount: 50,
-  },
-];
-
-
-interface IData extends Expense{
+interface IData extends Expense {
   id: string
 }
 
@@ -75,7 +52,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const renderItem = ({ item }: {item: IData}) => (
+const renderItem = ({ item }: { item: IData }) => (
   <View style={styles.item}>
     <View style={styles.main}>
       <Text style={styles.description}>{item.description}</Text>
@@ -85,14 +62,42 @@ const renderItem = ({ item }: {item: IData}) => (
   </View>
 );
 
+interface IExpenseViewState{
+  expenses: Expense[];
+}
 
-const ExpenseView = () =>
-    <SafeAreaView>
-          <FlatList
-        data={DATA}
+class ExpenseView extends React.Component<any,IExpenseViewState> {
+  async getExpenses(){
+    const db = await openDB();
+    const callback = (results: any) => {
+      var len = results.rows.length;
+      var resultSet=[];
+      for (let i = 0; i < len; i++) {
+        let row = results.rows.item(i);
+        resultSet.push({...row, id: i})
+      }
+      this.setState({expenses: resultSet});
+    }; 
+    await db.transaction(async (tx: any) => {
+        var query = "select * from Expenses";
+        await execQuery(db, query, null, callback);
+    })
+  };
+  state = {
+    expenses: []
+  }
+  componentDidMount(){
+    this.getExpenses();
+  }
+  render() {
+    return <SafeAreaView>
+      <FlatList
+        data={this.state.expenses}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>;
+  }
+}
 
 export default ExpenseView;
