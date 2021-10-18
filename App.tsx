@@ -19,6 +19,7 @@ import ExpenseSummary from './ExpenseSummary';
 import NewExpense from './NewExpense';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import initializeDatabase from './src/db/init';
+import ExpenseView from './ExpenseView';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,16 @@ class App extends React.Component {
                 <MaterialCommunityIcons name="home" color={color} size={size} />
               ),
             }} />
+          <Tab.Screen
+            name="Expense View"
+            component={ExpenseView}
+            options={{
+              tabBarLabel: 'ExpenseView',
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="currency-usd" color={color} size={size} />
+              ),
+            }}
+          />
           <Tab.Screen
             name="Add new expense"
             component={NewExpense}
